@@ -1,43 +1,74 @@
+# Set the name of the GitHub Actions workflow displayed in the Actions tab UI
 name: "Terraform Hub-and-Spoke CI/CD"
 
+# Define the event triggers that will automatically start this workflow
 on:
+  # Trigger the workflow whenever code changes are pushed
   push:
+    # Restrict execution specifically to commits targeting the main branch
     branches:
+      # Target branch name
       - main
-      - feature/hub-vnet
 
+# Configure explicit permissions granted to the GITHUB_TOKEN for this run
 permissions:
+  # Required permission for OIDC token generation when authenticating passwordlessly to Azure
   id-token: write
+  # Required permission to download and check out the repository's code files
   contents: read
 
+# Container for all jobs that will run as part of this workflow execution
 jobs:
+  # Define a single job key identifier named 'terraform'
   terraform:
+    # Set the human-readable label shown in GitHub's job visualizer
     name: "Terraform Apply"
+    # Specify the GitHub-hosted runner environment OS (Ubuntu Linux latest stable)
     runs-on: ubuntu-latest
 
+    # Set environment variables available to every step in this job
     env:
+      # Pass the Azure App/Client ID secret to the AzureRM Terraform provider
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      # Pass the Azure Service Principal Secret to the AzureRM Terraform provider
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      # Pass the target Azure Subscription ID to deploy resources into
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # Pass your Azure Active Directory / Entra ID Tenant ID
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
+    # Sequential list of tasks to execute inside the runner machine
     steps:
+      # Step 1 label: Download code from the repository into the runner workspace
       - name: Checkout Repository
+        # Action that checks out your repo so the runner can access the .tf files
         uses: actions/checkout@v4
 
+      # Step 2 label: Install and configure the Terraform CLI executable
       - name: Setup Terraform
+        # Official HashiCorp action used to install specific Terraform binary versions
         uses: hashicorp/setup-terraform@v3
+        # Additional parameters passed to configure the setup action
         with:
+          # Pin the exact version of Terraform CLI to use for consistency
           terraform_version: 1.6.0
 
+      # Step 3 label: Verify code formatting standard compliance
       - name: Terraform Format Check
+        # Fails the build if any .tf file is not properly formatted per HashiCorp standard
         run: terraform fmt -check
 
+      # Step 4 label: Prepare the Terraform working directory
       - name: Terraform Init
+        # Downloads provider plugins (e.g., azurerm) and initializes remote state backends
         run: terraform init
 
+      # Step 5 label: Check configuration code validity
       - name: Terraform Validate
+        # Checks whether configuration files are syntactically valid and internally consistent
         run: terraform validate -no-color
 
+      # Step 6 label: Provision infrastructure in Azure
       - name: Terraform Apply
+        # Executes deployment without prompting for interactive confirmation and disables inputs
         run: terraform apply -auto-approve -input=false
