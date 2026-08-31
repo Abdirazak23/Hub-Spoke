@@ -1,0 +1,7 @@
+name: "Terraform Hub-and-Spoke CI/CD"
+
+on:
+  push:
+    branches:
+      - main
+      - feature/Hub
