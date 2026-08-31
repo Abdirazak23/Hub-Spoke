@@ -35,7 +35,6 @@ This project provisions a resilient, enterprise-ready cloud network design separ
 
 
 
-.
 ├── .github/
 │   └── workflows/
 │       └── terraform.yml      # Pipeline executing on push to main
