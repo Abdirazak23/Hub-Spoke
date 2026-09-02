@@ -19,6 +19,7 @@ module "hub_network" {
   vnet_name                = "hub-${var.vnet_name}01"
   address_space            = "var.address_space"
   gateway_name             = "hub-gw"
+  subnet_name              = "snet-hub-01"
   gateway_subnet_prefix    = "var.gateway_subnet_prefix"
   firewall_subnet_prefix   = "var.firewall_subnet_prefix"
   management_subnet_prefix = "var.management_subnet_prefix"
