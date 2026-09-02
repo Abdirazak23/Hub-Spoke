@@ -1,4 +1,4 @@
-variable "resource_group_name" {
+variable "hub_vnet_rg_name" {
   type        = string
   description = "Name of the local Resource Group"
 }

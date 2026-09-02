@@ -14,7 +14,7 @@ provider "azurerm" {
 module "hub_network" {
   source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/hub-vnet?ref=main"
 
-  resource_group_name      = "hub-${var.resource_group_name}rg01"
+  hub_vnet_rg_name         = "hub-${var.hub_vnet_rg_name}rg01"
   location                 = "var.location"
   vnet_name                = "hub-${var.vnet_name}01"
   address_space            = "var.address_space"

@@ -1,4 +1,4 @@
-resource_group_name      = "Vnet"
+hub_vnet_rg_name         = "Vnet"
 location                 = "uksouth"
 vnet_name                = "vnet"
 address_space            = ["10.0.0.0/16"]
