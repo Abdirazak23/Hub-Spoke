@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=5.0.0"
+      version = "~> 4.0" # Note: AzureRM v5.0 is not released yet; standard practice is pinning major versions (~> 4.0)
     }
   }
 }
@@ -11,40 +11,16 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "hub-rg" {
-  name     = "HubVnet-rg"
-  location = "uk south"
+# Reference central library module
+module "hub_network" {
+  source = "git::https://github.com/Abdirazak23/Central-library/tree/main/Terraform-Modules/Modules/hub-vnet?ref=main"
+
+  resource_group_name    = "var.resource_group_name"
+  location               = "uksouth"
+  vnet_name              = "hub"
+  address_space          = ["10.0.0.0/16"]
+  gateway_name           = "hub-gw"
+  gateway_subnet_prefix  = "10.0.1.0/24"
+  firewall_subnet_prefix = "10.0.2.0/24"
+  management_subnet_prefix = "10.0.3.0/24"
 }
-
-resource "azurerm_virtual_network" "example" {
-  name                = "example-network"
-  location            = azurerm_resource_group.hub-rg.location
-  resource_group_name = azurerm_resource_group.hub-rg.name
-  address_space       = ["10.0.0.0/16"]
-
-}
-
-resource "azurerm_subnet" "example" {
-  name                 = "example-subnet"
-  resource_group_name  = azurerm_resource_group.hub-rg.name
-  virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.0.1.0/24"]
-
-}
-
-resource "azurerm_subnet" "example" {
-  name                 = "example-subnet"
-  resource_group_name  = azurerm_resource_group.hub-rg.name
-  virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.0.1.0/24"]
-
-  delegation {
-    name = "gateway-delegation"
-
-    service_delegation {
-      name    = "Microsoft.gateway/service"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
-    }
-  }
-}
-
