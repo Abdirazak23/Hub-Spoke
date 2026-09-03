@@ -40,6 +40,15 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -input=false
+        
+      - name: Manual Approval Gate
+        if: github.ref == 'refs/heads/main'
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: YOUR_GITHUB_USERNAME
+          minimum-approvals: 1
+          issue-title: "Approve Terraform Apply for Main"
 
   apply:
     name: "2. Terraform Apply"
