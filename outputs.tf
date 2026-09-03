@@ -9,11 +9,11 @@ output "vnet_name" {
 }
 
 output "gateway_subnet_id" {
-  value       = azurerm_subnet.gateway_subnet.id
+  value       = module.hub_network.gateway_subnet_id
   description = "The ID of the GatewaySubnet."
 }
 
 output "firewall_subnet_id" {
-  value       = azurerm_subnet.firewall_subnet.id
+  value       = module.hub_network.firewall_subnet_id
   description = "The ID of the AzureFirewallSubnet."
 }
