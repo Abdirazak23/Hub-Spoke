@@ -15,12 +15,12 @@ module "hub_network" {
   source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/hub-vnet?ref=main"
 
   hub-vnet-rg              = "hub-${var.hub-vnet-rg}rg01"
-  location                 = "var.location"
+  location                 = var.location
   vnet_name                = "hub-${var.vnet_name}01"
-  address_space            = "var.address_space"
+  address_space            = var.address_space
   gateway_name             = "hub-gw"
   subnet_name              = "snet-hub-01"
-  gateway_subnet_prefix    = "var.gateway_subnet_prefix"
-  firewall_subnet_prefix   = "var.firewall_subnet_prefix"
-  management_subnet_prefix = "var.management_subnet_prefix"
+  gateway_subnet_prefix    = var.gateway_subnet_prefix
+  firewall_subnet_prefix   = var.firewall_subnet_prefix
+  management_subnet_prefix = var.management_subnet_prefix
 }
