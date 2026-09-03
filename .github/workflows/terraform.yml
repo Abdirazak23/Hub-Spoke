@@ -30,6 +30,19 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      # --- DEBUG STEP ADDED BELOW ---
+      - name: Debug Secret Availability
+        run: |
+          if [ -z "$ARM_CLIENT_ID" ]; then echo "ARM_CLIENT_ID is EMPTY"; else echo "ARM_CLIENT_ID is set"; fi
+          if [ -z "$ARM_TENANT_ID" ]; then echo "ARM_TENANT_ID is EMPTY"; else echo "ARM_TENANT_ID is set"; fi
+          if [ -z "$ARM_SUBSCRIPTION_ID" ]; then echo "ARM_SUBSCRIPTION_ID is EMPTY"; else echo "ARM_SUBSCRIPTION_ID is set"; fi
+          if [ -z "$ARM_CLIENT_SECRET" ]; then echo "ARM_CLIENT_SECRET is EMPTY"; else echo "ARM_CLIENT_SECRET is set"; fi
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
       - name: Terraform Plan
         run: terraform plan -input=false
         env:
