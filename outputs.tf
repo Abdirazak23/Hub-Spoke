@@ -1,10 +1,10 @@
 output "vnet_id" {
-  value       = azurerm_virtual_network.hub-vnet.id
+  value       = module.hub_network.vnet_id
   description = "The ID of the hub virtual network."
 }
 
 output "vnet_name" {
-  value       = azurerm_virtual_network.hub-vnet.name
+  value       = module.hub_network.vnet_name
   description = "The name of the hub virtual network."
 }
 
