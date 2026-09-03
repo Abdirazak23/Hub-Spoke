@@ -2,6 +2,7 @@ hub-vnet-rg              = "Vnet"
 location                 = "uksouth"
 vnet_name                = "vnet"
 gateway_name             = "hub-gw"
+subnet_name              = "snet-hub-01"
 address_space            = ["10.0.0.0/16"]
 gateway_subnet_prefix    = ["10.0.1.0/24"]
 firewall_subnet_prefix   = ["10.0.2.0/24"]
