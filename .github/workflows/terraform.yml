@@ -14,7 +14,6 @@ jobs:
   plan:
     name: "1. Terraform Plan"
     runs-on: ubuntu-latest
-    # Map credentials globally across all steps in this job
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
