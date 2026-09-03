@@ -1,39 +1,44 @@
-variable "hub_vnet_rg_name" {
+variable "hub-vnet-rg" {
   type        = string
-  description = "Name of the local Resource Group"
+  description = "Name component for the hub resource group"
 }
 
 variable "location" {
   type        = string
-  description = "Azure region"
+  description = "The Azure region where resources will be created."
 }
 
 variable "vnet_name" {
   type        = string
-  description = "VNet name prefix"
-}
-
-variable "address_space" {
-  type        = string
-  description = "VNet IP range"
+  description = "The name of the Virtual Network."
 }
 
 variable "gateway_name" {
   type        = string
-  description = "Gateway name prefix"
+  description = "The name of the VPN/ExpressRoute Gateway."
+}
+
+variable "subnet_name" {
+  type        = string
+  description = "The name of the Subnet."
+}
+
+variable "address_space" {
+  type        = list(string)
+  description = "The address space for the Virtual Network."
 }
 
 variable "gateway_subnet_prefix" {
-  type        = string
-  description = "Gateway subnet CIDR"
+  type        = list(string)
+  description = "Address prefix for the GatewaySubnet."
 }
 
 variable "firewall_subnet_prefix" {
-  type        = string
-  description = "Firewall subnet CIDR"
+  type        = list(string)
+  description = "Address prefix for the AzureFirewallSubnet."
 }
 
 variable "management_subnet_prefix" {
-  type        = string
-  description = "Management subnet CIDR"
+  type        = list(string)
+  description = "Address prefix for the Management Subnet."
 }
