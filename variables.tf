@@ -48,11 +48,6 @@ variable "spoke-vnet-rg" {
   description = "Name component for the spoke resource group"
 }
 
-variable "location" {
-  type        = string
-  description = "The Azure region where resources will be created."
-}
-
 variable "vnet_name_spoke" {
   type        = string
   description = "The name of the Virtual Network."
