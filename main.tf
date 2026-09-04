@@ -32,6 +32,8 @@ module "spoke_network" {
   spoke-vnet-rg       = var.spoke-vnet-rg
   vnet_name_spoke     = var.vnet_name_spoke
   location            = var.location
+  subnet01_name       = var.subnet01_name
+  subnet02_name       = var.subnet02_name
   address_space_spoke = var.address_space_spoke
   subnet01_prefix     = var.subnet01_prefix
   subnet02_prefix     = var.subnet02_prefix
