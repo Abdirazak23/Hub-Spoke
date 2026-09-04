@@ -28,11 +28,11 @@ module "hub_network" {
 
 module "spoke_network" {
   source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/spoke-vnet?ref=main"
-  
-  spoke-vnet-rg            = var.spoke-vnet-rg
-  vnet_name_spoke          = var.vnet_name_spoke
-  address_space_spoke      = var.address_space_spoke
-  Subnet01_prefix          = var.Subnet01_prefix
-  Subnet02_prefix          = var.Subnet02_prefix
+
+  spoke-vnet-rg       = var.spoke-vnet-rg
+  vnet_name_spoke     = var.vnet_name_spoke
+  address_space_spoke = var.address_space_spoke
+  Subnet01_prefix     = var.Subnet01_prefix
+  Subnet02_prefix     = var.Subnet02_prefix
 
 }
