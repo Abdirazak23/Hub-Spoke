@@ -12,7 +12,7 @@ provider "azurerm" {
 }
 
 module "hub_network" {
-  source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/hub-vnet?ref=main"
+  source = "git::https://github.com/Abdirazak23/Central-library/Terraform-Modules/Modules/network/hub-vnet?ref=main"
 
   hub-vnet-rg              = var.hub-vnet-rg
   location                 = var.location
@@ -27,7 +27,7 @@ module "hub_network" {
 }
 
 module "spoke_network" {
-  source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/spoke-vnet?ref=main"
+  source = "git::https://github.com/Abdirazak23/Central-library/Terraform-Modules/Modules/network/spoke-vnet?ref=main"
 
   spoke-vnet-rg       = var.spoke-vnet-rg
   vnet_name_spoke     = var.vnet_name_spoke
@@ -41,7 +41,7 @@ module "spoke_network" {
 }
 
 module "vnet_peering" {
-  source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/vnet-peering?ref=main"
+  source = "git::https://github.com/Abdirazak23/Central-library/Terraform-Modules/Modules/network/vnet-peering?ref=main"
 
   hub_vnet_name = module.hub_network.vnet_name
   hub_rg_name   = module.hub_network.rg_name
