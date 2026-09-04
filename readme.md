@@ -43,3 +43,4 @@ This project provisions a resilient, enterprise-ready cloud network design separ
 ├── variables.tf               # Input variables (IP ranges, locations, naming)
 ├── outputs.tf                 # Gateway Public IPs and VNet IDs
 └── provider.tf                # Terraform version & Azure provider settings
+d
