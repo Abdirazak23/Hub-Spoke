@@ -39,3 +39,20 @@ module "spoke_network" {
   subnet02_prefix     = var.subnet02_prefix
 
 }
+
+module "vnet_peering" {
+  source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/vnet-peering?ref=main"
+
+  hub_vnet_name = module.hub_network.vnet_name
+  hub_rg_name   = module.hub_network.rg_name
+  hub_vnet_id   = module.hub_network.vnet_id
+
+  spoke_vnet_name = module.spoke_network.vnet_name
+  spoke_rg_name   = module.spoke_network.rg_name
+  spoke_vnet_id   = module.spoke_network.vnet_id
+
+  depends_on = [
+    module.hub_network,
+    module.spoke_network
+  ]  
+}
