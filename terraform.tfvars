@@ -15,5 +15,5 @@ vnet_name_spoke     = "spoke01"
 subnet01_name       = "snet-spoke01"
 subnet02_name       = "snet-spoke01"
 address_space_spoke = ["10.0.1.0/16"]
-Subnet01_prefix     = ["10.0.1.0/28"]
-Subnet02_prefix     = ["10.0.1.16/28"] 
+subnet01_prefix     = ["10.0.1.0/28"]
+subnet02_prefix     = ["10.0.1.16/28"] 
