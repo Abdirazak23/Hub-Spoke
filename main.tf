@@ -14,12 +14,12 @@ provider "azurerm" {
 module "hub_network" {
   source = "git::https://github.com/Abdirazak23/Central-library.git//Terraform-Modules/Modules/hub-vnet?ref=main"
 
-  hub-vnet-rg              = "hub-${var.hub-vnet-rg}rg01"
+  hub-vnet-rg              = var.hub-vnet-rg
   location                 = var.location
-  vnet_name                = "hub-${var.vnet_name}01"
+  vnet_name                = var.vnet_name
   address_space            = var.address_space
-  gateway_name             = "hub-gw"
-  subnet_name              = "snet-hub-01"
+  gateway_name             = var.gateway_name
+  subnet_name              = var.subnet_name
   gateway_subnet_prefix    = var.gateway_subnet_prefix
   firewall_subnet_prefix   = var.firewall_subnet_prefix
   management_subnet_prefix = var.management_subnet_prefix
