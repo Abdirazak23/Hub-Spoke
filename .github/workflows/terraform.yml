@@ -1,0 +1,77 @@
+name: "Terraform CI/CD Pipeline"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  plan:
+    name: "1. Terraform Plan"
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Debug Secret Availability
+        run: |
+          if [ -z "$ARM_CLIENT_ID" ]; then echo "ARM_CLIENT_ID is EMPTY"; else echo "ARM_CLIENT_ID is set"; fi
+          if [ -z "$ARM_TENANT_ID" ]; then echo "ARM_TENANT_ID is EMPTY"; else echo "ARM_TENANT_ID is set"; fi
+          if [ -z "$ARM_SUBSCRIPTION_ID" ]; then echo "ARM_SUBSCRIPTION_ID is EMPTY"; else echo "ARM_SUBSCRIPTION_ID is set"; fi
+          if [ -z "$ARM_CLIENT_SECRET" ]; then echo "ARM_CLIENT_SECRET is EMPTY"; else echo "ARM_CLIENT_SECRET is set"; fi
+
+      - name: Terraform Plan
+        run: terraform plan -input=false
+
+      - name: Manual Approval Gate
+        if: github.ref == 'refs/heads/main'
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: Abdirazak23
+          minimum-approvals: 1
+          issue-title: "Approve Terraform Apply for Main"
+
+  apply:
+    name: "2. Terraform Apply"
+    needs: plan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Map credentials globally across all steps in this job
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
