@@ -50,6 +50,13 @@ module "vnet_peering" {
   spoke_vnet_name = module.spoke_network.vnet_name
   spoke_rg_name   = module.spoke_network.rg_name
   spoke_vnet_id   = module.spoke_network.vnet_id
+  vnet_name_spoke_id = module.spoke_network.vnet_id
+  spoke_vnet_name = module.spoke_network.vnet_name
+  spoke_rg_name   = module.spoke_network.rg_name
+  spoke_vnet_id   = module.spoke_network.vnet_id
+
+  vnet_name_spoke = var.vnet_name_spoke
+  spoke-vnet-rg   = var.spoke-vnet-rg
 
   depends_on = [
     module.hub_network,
