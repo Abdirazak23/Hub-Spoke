@@ -1,11 +1,15 @@
 name: "Nightly Infrastructure Drift Detection"
 
 on:
-  schedule:
+  push:
+    branches: [ main ]
+
+#on:
+#  schedule:
     # Runs every night at 12:00 AM UTC
-    - cron: "0 2 * * *"
+#    - cron: "0 2 * * *"
   # Allows manual runs from the GitHub Actions UI tab
-  workflow_dispatch:
+#  workflow_dispatch:
 
 permissions:
   id-token: write
