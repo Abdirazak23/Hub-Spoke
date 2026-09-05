@@ -54,5 +54,5 @@ module "vnet_peering" {
   depends_on = [
     module.hub_network,
     module.spoke_network
-  ]  
+  ]
 }
